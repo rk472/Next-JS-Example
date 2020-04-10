@@ -1,7 +1,52 @@
-import { Container, Paper, Typography, TextField, Button } from "@material-ui/core";
-
+import { Container, Paper, Typography, TextField, Button, InputAdornment, IconButton } from "@material-ui/core";
+import VisibleIcon from "@material-ui/icons/Visibility";
+import InVisibleIcon from "@material-ui/icons/VisibilityOff";
+import Router from "next/router";
 
 function Register(){
+    const [userName , setUserName] = React.useState('');
+    const [userNameError , setUserNameError] = React.useState('');
+    
+    const [name , setName] = React.useState('');
+    const [nameError , setNameError] = React.useState('');
+    
+    const [password , setPassword] = React.useState('');
+    const [passwordError , setPasswordError] = React.useState('');
+    
+    const [visibility, setVisibility] = React.useState(false);
+
+    const validateFields = () => {
+        if(userName === ''){
+          setUserNameError('Username must not be empty');
+          return false;
+        }else {
+          setUserNameError('');
+        }
+        if(name === ''){
+            setNameError('Name must not be empty');
+            return false;
+          }else {
+            setNameError('');
+          }
+        if(password === ''){
+          setPasswordError('Password must not be empty');
+          return false;
+        }else {
+          if(password.length < 8){
+            setPasswordError('Password must be 8 characters');
+            return false;
+          }else{
+            setPasswordError('');
+          }
+        }
+        return true;
+      }
+    
+      const handleRegister = () => {
+          if(validateFields()){
+              Router.replace('/dashboard');
+          }
+      }
 
     return (
         <Container
@@ -30,28 +75,48 @@ function Register(){
                 <TextField 
                     variant="outlined"
                     label="Name"
+                    error={nameError === '' ? false : true}
+                    helperText={nameError}
                     fullWidth
+                    value={name}
+                    onChange={(event)=>{setName(event.target.value);}}
                     style={{
                         margin: 30
                     }}
                 />
                 <TextField 
                     variant="outlined"
+                    error={userNameError === '' ? false : true}
+                    helperText={userNameError}
                     label="Username"
+                    value={userName}
+                    onChange={(event)=>{setUserName(event.target.value);}}
                     fullWidth
                 />
                 <TextField 
-                    variant="outlined"
-                    label="Password"
-                    type="password"
-                    fullWidth
+                    error={passwordError === '' ? false : true}
+                    variant="outlined" 
+                    label="Password" 
+                    type={visibility ? 'text' : 'password'} 
+                    helperText={passwordError}
+                    value={password}
                     style={{
                         margin: 30
                     }}
-                />
+                    InputProps={{
+                        endAdornment: 
+                        <InputAdornment position="end">
+                            <IconButton edge="end" onClick={()=>{setVisibility(!visibility);}}>
+                            {visibility ? <VisibleIcon /> : <InVisibleIcon/>}
+                            </IconButton>
+                        </InputAdornment>
+                    }}
+                    onChange={(event)=>{setPassword(event.target.value);}}
+                    fullWidth/>
                 <Button
                     fullWidth
                     color="primary"
+                    onClick={handleRegister}
                     variant="contained"
                 >
                     Register
