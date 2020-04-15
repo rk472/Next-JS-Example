@@ -1,7 +1,9 @@
-import { Container, Paper, Typography, TextField, Button, InputAdornment, IconButton } from "@material-ui/core";
+import { Container, Paper, Typography, Button, InputAdornment, IconButton } from "@material-ui/core";
 import VisibleIcon from "@material-ui/icons/Visibility";
 import InVisibleIcon from "@material-ui/icons/VisibilityOff";
 import Router from "next/router";
+import dynamic from 'next/dynamic';
+const TextField = dynamic(() => import('@material-ui/core/TextField'), {ssr: false});
 
 function Register(){
     const [userName , setUserName] = React.useState('');

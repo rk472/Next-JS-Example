@@ -1,5 +1,6 @@
-import { Container, Paper, Typography, TextField, Button } from "@material-ui/core";
-
+import { Container, Paper, Typography, Button } from "@material-ui/core";
+import dynamic from 'next/dynamic';
+const TextField = dynamic(() => import('@material-ui/core/TextField'), {ssr: false});
 
 function Forgot(){
     return(
