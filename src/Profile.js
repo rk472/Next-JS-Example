@@ -1,8 +1,7 @@
 import { Paper, Typography,Avatar, Button } from "@material-ui/core";
 import React from "react";
 
-export default function ProfileCard() {
-    const [name , setName] = React.useState('Demo');
+export default function ProfileCard({userInfo}) {
     return (
         <Paper elevation={3} style={{
             display: 'flex',
@@ -24,16 +23,14 @@ export default function ProfileCard() {
                 marginTop: 10,
                 marginBottom: 10
             }}>
-                Jone Doe    
+                {userInfo ? userInfo.name : ''}    
             </Typography>    
             <Typography>
-                johndoe12@gmail.com    
+                {userInfo ? userInfo.email : ''} 
             </Typography>  
-            <Button color="secondary" variant="contained" style={{
-                margin: 10
-            }}>
-                Logout
-            </Button>      
+            <Typography>
+                {userInfo ? userInfo.phone : ''} 
+            </Typography>  
         </Paper>
     );  
 };

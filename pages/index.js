@@ -2,20 +2,29 @@ import { Container, Grid, Paper, Button, Toolbar, AppBar } from "@material-ui/co
 import ProfileCard from "../src/Profile";
 import PostCard from "../src/PostCard";
 import UserCard from "../src/UserCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import profileAPI from "../apis/profile";
+import postsAPI from "../apis/posts";
 
 
 function Dashboard(){
 
+    const [userData, setUserData] = useState(null);
+    const [posts, setPosts] = useState([]);
+
     useEffect(()=>{
-        const userData = window.localStorage.getItem('userData');
-        console.log('User Data ------- > ',userData);
+        async function fetchData() {
+            const userId = window.localStorage.getItem('userId');
+            const userData = await profileAPI(userId);
+            setUserData(userData.data);
+            const allPosts = await postsAPI(userId);
+            setPosts(allPosts.data);
+        }
+        fetchData();        
     },[]);
     
     return (
-        <div style={{
-            margin: '-8px !important'
-        }}>
+        <div>
             <Container maxWidth='lg' style={{
                 marginTop: 80
             }}>
@@ -24,16 +33,18 @@ function Dashboard(){
                         item
                         md={3}
                     >
-                        <ProfileCard />
+                        <ProfileCard userInfo={userData} />
                     </Grid>
                     <Grid 
                         item
                         md={6}
                     >
-                        <PostCard /> 
-                        <PostCard /> 
-                        <PostCard /> 
-                        <PostCard /> 
+                        {
+                            posts.map((each, itemPosition) =>
+                                <PostCard postData={each} key={itemPosition}/> 
+                            )
+                        }
+                         
                     </Grid>
                     <Grid 
                         item

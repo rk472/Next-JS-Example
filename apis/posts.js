@@ -1,9 +1,9 @@
 import axios from "axios";
 
 
-const profileAPI = (userid) => {
+const postsAPI = (userid) => {
     return axios.get(
-        'https://flutter.smarttersstudio.com/test/profile.php?id='+userid
+        'https://flutter.smarttersstudio.com/test/getMyPosts.php?id='+userid
     ).then((response)=>{
         console.log('Response',response.data);
         return {data: response.data};
@@ -13,4 +13,4 @@ const profileAPI = (userid) => {
     });
 };
 
-export default profileAPI;
+export default postsAPI;

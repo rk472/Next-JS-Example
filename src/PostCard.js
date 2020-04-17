@@ -1,10 +1,10 @@
-import { Card, CardHeader, Avatar, CardActions, IconButton, CardMedia, Menu, MenuItem } from "@material-ui/core";
+import { Card, CardHeader, Avatar, CardActions, IconButton, Typography, Menu, MenuItem, CardContent } from "@material-ui/core";
 import UnLikeIcon from "@material-ui/icons/FavoriteBorder";
 import LikeIcon from "@material-ui/icons/Favorite";
 import MenuIcon from "@material-ui/icons/MoreVert";
 import React from "react";
 
-export default function PostCard(){
+export default function PostCard({postData}){
     
     const [liked, setLiked] = React.useState(false);
     const [anchorElement, setAnchorElement] = React.useState(null);
@@ -21,23 +21,25 @@ export default function PostCard(){
                 <CardHeader 
                     avatar= {
                         <Avatar>
-                            R
+                            {postData ? postData.name.charAt(0) : '' }
                         </Avatar>
                     }
-                    title="John Doe"
-                    subheader="12:00 PM, 12/02/2020"
+                    title={postData ? postData.name : '' }
+                    subheader={ postData ? postData.timestamp : ''}
                     action={
                         <IconButton onClick={(event)=>{setAnchorElement(event.currentTarget);}}>
                             <MenuIcon />
                         </IconButton>
                     }
                 />
-                <CardMedia
-                    image="/rice.jpg"
-                    style={{
-                        height: 300
-                    }}
-                />
+                <CardContent>
+                    <Typography variant="h5">
+                        {postData ? postData.title : ''}
+                    </Typography>
+                    <Typography variant="h6">
+                        {postData ? postData.description : ''}
+                    </Typography>
+                </CardContent>
                 <CardActions>
                     <IconButton onClick={()=>{setLiked(!liked);}}>
                         {

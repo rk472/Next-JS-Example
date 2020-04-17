@@ -15,7 +15,7 @@ export default class MyApp extends App {
     }
 
     componentDidMount() {
-        const {router} = this.props;
+       const {router} = this.props;
        const themeType = window.localStorage.getItem('themeType');
        if (themeType) this.setState({themeType});
        const userId = window.localStorage.getItem('userId');
