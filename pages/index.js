@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, Button, Toolbar, AppBar } from "@material-ui/core";
+import { Container, Grid, CircularProgress } from "@material-ui/core";
 import ProfileCard from "../src/Profile";
 import PostCard from "../src/PostCard";
 import UserCard from "../src/UserCard";
@@ -11,14 +11,18 @@ function Dashboard(){
 
     const [userData, setUserData] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [postLoading, setPostLoading] = useState(true);
+    const [profileLoading, setProfileLoading] = useState(true);
 
     useEffect(()=>{
         async function fetchData() {
             const userId = window.localStorage.getItem('userId');
             const userData = await profileAPI(userId);
             setUserData(userData.data);
+            setProfileLoading(false);
             const allPosts = await postsAPI(userId);
             setPosts(allPosts.data);
+            setPostLoading(false);
         }
         fetchData();        
     },[]);
@@ -33,14 +37,23 @@ function Dashboard(){
                         item
                         md={3}
                     >
-                        <ProfileCard userInfo={userData} />
+                        <ProfileCard userInfo={userData} profileLoading={profileLoading} />
                     </Grid>
                     <Grid 
                         item
                         md={6}
                     >
                         {
-                            posts.map((each, itemPosition) =>
+                            postLoading ? 
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    padding: 30
+                                }}>
+                                    <CircularProgress />
+                                </div>  
+                            : posts.map((each, itemPosition) =>
                                 <PostCard postData={each} key={itemPosition}/> 
                             )
                         }
@@ -50,9 +63,6 @@ function Dashboard(){
                         item
                         md={3}
                     >
-                        <UserCard />
-                        <UserCard />
-                        <UserCard />
                         <UserCard />
                     </Grid>
                 </Grid>

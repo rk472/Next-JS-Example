@@ -1,7 +1,7 @@
-import { Paper, Typography,Avatar, Button } from "@material-ui/core";
+import { Paper, Typography,Avatar, CircularProgress } from "@material-ui/core";
 import React from "react";
 
-export default function ProfileCard({userInfo}) {
+export default function ProfileCard({userInfo, profileLoading}) {
     return (
         <Paper elevation={3} style={{
             display: 'flex',
@@ -18,19 +18,34 @@ export default function ProfileCard({userInfo}) {
                 borderStyle: 'solid'
             }}
             src="/teenager.png" />
-            <Typography variant="h5" style={{
-                fontWeight: 600,
-                marginTop: 10,
-                marginBottom: 10
-            }}>
-                {userInfo ? userInfo.name : ''}    
-            </Typography>    
-            <Typography>
-                {userInfo ? userInfo.email : ''} 
-            </Typography>  
-            <Typography>
-                {userInfo ? userInfo.phone : ''} 
-            </Typography>  
+            {
+                profileLoading  ?
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: 10
+                    }}>
+                        <CircularProgress />
+                    </div>  
+                : 
+                <>
+                    <Typography variant="h5" style={{
+                        fontWeight: 600,
+                        marginTop: 10,
+                        marginBottom: 10
+                    }}>
+                        {userInfo ? userInfo.name : ''}    
+                    </Typography>    
+                    <Typography>
+                        {userInfo ? userInfo.email : ''} 
+                    </Typography>  
+                    <Typography>
+                        {userInfo ? userInfo.phone : ''} 
+                    </Typography>
+                </>  
+            }
+            
         </Paper>
     );  
 };
